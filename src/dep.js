@@ -1,7 +1,6 @@
 /* @flow */
 
-import type Watcher from './watcher'
-import { remove } from '../util/index'
+import { remove } from './util'
 
 let uid = 0
 
@@ -10,20 +9,17 @@ let uid = 0
  * directives subscribing to it.
  */
 export default class Dep {
-  static target: ?Watcher;
-  id: number;
-  subs: Array<Watcher>;
 
   constructor () {
     this.id = uid++
     this.subs = []
   }
 
-  addSub (sub: Watcher) {
+  addSub (sub) {
     this.subs.push(sub)
   }
 
-  removeSub (sub: Watcher) {
+  removeSub (sub) {
     remove(this.subs, sub)
   }
 
@@ -48,7 +44,7 @@ export default class Dep {
 Dep.target = null
 const targetStack = []
 
-export function pushTarget (_target: Watcher) {
+export function pushTarget (_target) {
   if (Dep.target) targetStack.push(Dep.target)
   Dep.target = _target
 }

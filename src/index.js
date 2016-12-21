@@ -9,7 +9,7 @@ import {
   hasProto,
   hasOwn,
   warn
-} from '../util/index'
+} from './util'
 
 const arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 
@@ -31,11 +31,8 @@ export const observerState = {
  * collect dependencies and dispatches updates.
  */
 export class Observer {
-  value: any;
-  dep: Dep;
-  vmCount: number; // number of vms that has this object as root $data
 
-  constructor (value: any) {
+  constructor (value) {
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
@@ -56,7 +53,7 @@ export class Observer {
    * getter/setters. This method should only be called when
    * value type is Object.
    */
-  walk (obj: Object) {
+  walk (obj) {
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
       defineReactive(obj, keys[i], obj[keys[i]])
@@ -66,7 +63,7 @@ export class Observer {
   /**
    * Observe a list of Array items.
    */
-  observeArray (items: Array<any>) {
+  observeArray (items) {
     for (let i = 0, l = items.length; i < l; i++) {
       observe(items[i])
     }
@@ -79,7 +76,7 @@ export class Observer {
  * Augment an target Object or Array by intercepting
  * the prototype chain using __proto__
  */
-function protoAugment (target, src: Object) {
+function protoAugment (target, src) {
   /* eslint-disable no-proto */
   target.__proto__ = src
   /* eslint-enable no-proto */
@@ -91,7 +88,7 @@ function protoAugment (target, src: Object) {
  *
  * istanbul ignore next
  */
-function copyAugment (target: Object, src: Object, keys: Array<string>) {
+function copyAugment (target, src, keys) {
   for (let i = 0, l = keys.length; i < l; i++) {
     const key = keys[i]
     def(target, key, src[key])
@@ -103,11 +100,11 @@ function copyAugment (target: Object, src: Object, keys: Array<string>) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
-export function observe (value: any): Observer | void {
+export function observe (value){
   if (!isObject(value)) {
     return
   }
-  let ob: Observer | void
+  let ob
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
@@ -125,10 +122,10 @@ export function observe (value: any): Observer | void {
  * Define a reactive property on an Object.
  */
 export function defineReactive (
-  obj: Object,
-  key: string,
-  val: any,
-  customSetter?: Function
+  obj,
+  key,
+  val,
+  customSetter
 ) {
   const dep = new Dep()
 
@@ -184,7 +181,7 @@ export function defineReactive (
  * triggers change notification if the property doesn't
  * already exist.
  */
-export function set (obj: Array<any> | Object, key: any, val: any) {
+export function set (obj, key, val) {
   if (Array.isArray(obj)) {
     obj.length = Math.max(obj.length, key)
     obj.splice(key, 1, val)
@@ -214,7 +211,7 @@ export function set (obj: Array<any> | Object, key: any, val: any) {
 /**
  * Delete a property and trigger change if necessary.
  */
-export function del (obj: Object, key: string) {
+export function del (obj, key) {
   const ob = obj.__ob__
   if (obj._isVue || (ob && ob.vmCount)) {
     process.env.NODE_ENV !== 'production' && warn(
@@ -237,7 +234,7 @@ export function del (obj: Object, key: string) {
  * Collect dependencies on array elements when the array is touched, since
  * we cannot intercept array element access like property getters.
  */
-function dependArray (value: Array<any>) {
+function dependArray (value) {
   for (let e, i = 0, l = value.length; i < l; i++) {
     e = value[i]
     e && e.__ob__ && e.__ob__.dep.depend()

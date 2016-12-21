@@ -1,16 +1,12 @@
-/* @flow */
 
-import type Watcher from './watcher'
-import config from '../config'
+
 import {
-  warn,
-  nextTick,
-  devtools
-} from '../util/index'
+  warn
+} from './util'
 
-const queue: Array<Watcher> = []
-let has: { [key: number]: ?true } = {}
-let circular: { [key: number]: number } = {}
+const queue = []
+let has = {}
+let circular = {}
 let waiting = false
 let flushing = false
 let index = 0
@@ -53,24 +49,7 @@ function flushSchedulerQueue () {
     // in dev build, check and stop circular updates.
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
       circular[id] = (circular[id] || 0) + 1
-      if (circular[id] > config._maxUpdateCount) {
-        warn(
-          'You may have an infinite update loop ' + (
-            watcher.user
-              ? `in watcher with expression "${watcher.expression}"`
-              : `in a component render function.`
-          ),
-          watcher.vm
-        )
-        break
-      }
     }
-  }
-
-  // devtool hook
-  /* istanbul ignore if */
-  if (devtools && config.devtools) {
-    devtools.emit('flush')
   }
 
   resetSchedulerState()
@@ -81,7 +60,7 @@ function flushSchedulerQueue () {
  * Jobs with duplicate IDs will be skipped unless it's
  * pushed when the queue is being flushed.
  */
-export function queueWatcher (watcher: Watcher) {
+export function queueWatcher (watcher) {
   const id = watcher.id
   if (has[id] == null) {
     has[id] = true
@@ -95,11 +74,6 @@ export function queueWatcher (watcher: Watcher) {
         i--
       }
       queue.splice(Math.max(i, index) + 1, 0, watcher)
-    }
-    // queue the flush
-    if (!waiting) {
-      waiting = true
-      nextTick(flushSchedulerQueue)
     }
   }
 }

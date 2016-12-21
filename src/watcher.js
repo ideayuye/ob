@@ -1,6 +1,5 @@
 /* @flow */
 
-import config from '../config'
 import Dep, { pushTarget, popTarget } from './dep'
 import { queueWatcher } from './scheduler'
 import {
@@ -9,7 +8,7 @@ import {
   isObject,
   parsePath,
   _Set as Set
-} from '../util/index'
+} from './util'
 
 let uid = 0
 
@@ -19,28 +18,12 @@ let uid = 0
  * This is used for both the $watch() api and directives.
  */
 export default class Watcher {
-  vm: Component;
-  expression: string;
-  cb: Function;
-  id: number;
-  deep: boolean;
-  user: boolean;
-  lazy: boolean;
-  sync: boolean;
-  dirty: boolean;
-  active: boolean;
-  deps: Array<Dep>;
-  newDeps: Array<Dep>;
-  depIds: Set;
-  newDepIds: Set;
-  getter: Function;
-  value: any;
 
   constructor (
-    vm: Component,
-    expOrFn: string | Function,
-    cb: Function,
-    options?: Object = {}
+    vm,
+    expOrFn,
+    cb,
+    options
   ) {
     this.vm = vm
     vm._watchers.push(this)
@@ -97,7 +80,7 @@ export default class Watcher {
   /**
    * Add a dependency to this directive.
    */
-  addDep (dep: Dep) {
+  addDep (dep) {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
       this.newDepIds.add(id)
@@ -170,12 +153,6 @@ export default class Watcher {
               `Error in watcher "${this.expression}"`,
               this.vm
             )
-            /* istanbul ignore else */
-            if (config.errorHandler) {
-              config.errorHandler.call(null, e, this.vm)
-            } else {
-              throw e
-            }
           }
         } else {
           this.cb.call(this.vm, value, oldValue)
@@ -230,12 +207,12 @@ export default class Watcher {
  * is collected as a "deep" dependency.
  */
 const seenObjects = new Set()
-function traverse (val: any) {
+function traverse (val) {
   seenObjects.clear()
   _traverse(val, seenObjects)
 }
 
-function _traverse (val: any, seen: Set) {
+function _traverse (val, seen) {
   let i, keys
   const isA = Array.isArray(val)
   if ((!isA && !isObject(val)) || !Object.isExtensible(val)) {
