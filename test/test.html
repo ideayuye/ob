@@ -1,12 +1,25 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>test</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/png" href="lib/jasmine_favicon.png">
+        <link rel="stylesheet" type="text/css" href="lib/jasmine.css">        
     </head>
     <body>
-        <p>start test</p>
-    <script type="text/javascript" src="./../dist/bundle.js"></script>
+        <script type="text/javascript" src="lib/jasmine.js"></script>
+        <script type="text/javascript" src="lib/jasmine-html.js"></script>
+        <script type="text/javascript" src="lib/boot.js"></script>
+        <script>
+            var process = {
+                env:{
+                    NODE_ENV:'dev'
+                }
+            }
+        </script>
+        <script type="text/javascript" src="./../dist/bundle.js"></script>
+        <script type="text/javascript" src="./ob.spec.js"></script>        
     </body>
 </html>

@@ -1,7 +1,6 @@
 /* @flow */
 
 import Dep, { pushTarget, popTarget } from './dep'
-import { queueWatcher } from './scheduler'
 import {
   warn,
   remove,
@@ -23,7 +22,7 @@ export default class Watcher {
     vm,
     expOrFn,
     cb,
-    options
+    options = {}
   ) {
     this.vm = vm
     vm._watchers.push(this)
@@ -31,7 +30,7 @@ export default class Watcher {
     this.deep = !!options.deep
     this.user = !!options.user
     this.lazy = !!options.lazy
-    this.sync = !!options.sync
+    this.sync = true //备用
     this.expression = expOrFn.toString()
     this.cb = cb
     this.id = ++uid // uid for batching
@@ -122,9 +121,7 @@ export default class Watcher {
       this.dirty = true
     } else if (this.sync) {
       this.run()
-    } else {
-      queueWatcher(this)
-    }
+    } 
   }
 
   /**

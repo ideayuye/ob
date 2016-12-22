@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "rollup": "rollup -c config.js -m inline",
+    "dev": "rollup -c config.js -w -m inline ",
     "build": "rollup -c config.js"
   },
   "keywords": [
