@@ -1,17 +1,17 @@
 
-import {observe,Observer} from './index.js'
+import {observe,Observer} from './observe.js'
 import Watcher from './watcher.js'
-import {isReserved} from './util.js'
+import {isReserved,isPlainObject,warn} from './util.js'
 
 function initData(vm, data) {
-    vm._data = data;
-    /*if (!isPlainObject(data)) {
+    if (!isPlainObject(data)) {
       data = {}
       process.env.NODE_ENV !== 'production' && warn(
-        'data functions should return an object.',
+        'data should be an plain object.',
         vm
       )
-    }*/
+      return ;
+    }
 
     // proxy data on instance
     const keys = Object.keys(data)
@@ -22,6 +22,7 @@ function initData(vm, data) {
     // observe data
     observe(data)
     data.__ob__ && data.__ob__.vmCount++
+    vm._data = data;
 }
 
 function proxy(vm, key) {
@@ -44,6 +45,7 @@ class Ob{
     constructor(obj){
         this._watchers = [];
         initData(this,obj);
+        this.isInited = !(!this._data || this._data !== obj);
     }
 
     watch(getter,cb){

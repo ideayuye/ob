@@ -43,9 +43,7 @@ export function hasOwn (obj, key) {
 const hasConsole = typeof console !== 'undefined'
 export function warn(msg, vm) {
     if (hasConsole) {
-        console.error(`[Vue warn]: ${msg} ` + (
-            vm ? formatLocation(formatComponentName(vm)) : ''
-        ))
+        console.error(`[Ob warn]: ${msg} `)
     }
 }
 
@@ -121,3 +119,4 @@ export function isReserved (str) {
   const c = (str + '').charCodeAt(0)
   return c === 0x24 || c === 0x5F
 }
+
