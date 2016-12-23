@@ -1,19 +1,27 @@
 
+var process = {
+    env: {
+        NODE_ENV: 'dev'
+    }
+}
+
+
+import {Ob} from '../src/main.js';
 
 var data = {
-    t:'bilaaa',
-    ruby:{
-        type:'dinamic'
+    t: 'bilaaa',
+    ruby: {
+        type: 'dinamic'
     }
 };
 var ob = new Ob(data);
 
-describe('watch object',()=>{
-    it('data',(done)=>{
+describe('watch object', () => {
+    it('data', (done) => {
         var count = 0;
         var t = data.t;
-        ob.watch(()=>{
-            count ++;
+        ob.watch(() => {
+            count++;
             var t = data.t;
             if (count == 2) {
                 expect(data.t).toEqual("xfa");
@@ -24,16 +32,15 @@ describe('watch object',()=>{
         data.t = "xfa";
     });
 
-    it('teardown watcher',()=>{
-        var teardown = ob.watch(()=>{
-        });
+    it('teardown watcher', () => {
+        var teardown = ob.watch(() => {});
         expect(ob._watchers.length).toEqual(2);
         teardown();
         expect(ob._watchers.length).toEqual(1);
     });
 
-    it('watch attribute',(done)=>{
-        ob.watch('ruby.type',()=>{
+    it('watch attribute', (done) => {
+        ob.watch('ruby.type', () => {
             expect(data.ruby.type).toEqual('static');
             done();
         });
@@ -43,16 +50,16 @@ describe('watch object',()=>{
 
 
 var arrayData = {
-    grass:[],
-    vegetable:[]
+    grass: [],
+    vegetable: []
 };
 var obArray = new Ob(arrayData);
 
-describe('watch array in object',()=>{
-    it('array in object',(done)=>{
+describe('watch array in object', () => {
+    it('array in object', (done) => {
         var count = 0;
-        obArray.watch(()=>{
-            count ++;
+        obArray.watch(() => {
+            count++;
             var t = arrayData.grass;
             if (count == 2) {
                 expect(arrayData.grass.length).toEqual(1);
@@ -63,8 +70,8 @@ describe('watch array in object',()=>{
         arrayData.grass.push("xfa");
     });
 
-    it('watch array attribute',(done)=>{
-        obArray.watch('vegetable',()=>{
+    it('watch array attribute', (done) => {
+        obArray.watch('vegetable', () => {
             expect(obArray.vegetable.length).toEqual(1);
             expect(obArray.vegetable[0]).toEqual('radish');
             done();
@@ -73,12 +80,10 @@ describe('watch array in object',()=>{
     });
 });
 
-describe('observe array false',()=>{
-    it("can't observe pure array",()=>{
-        var arrayData1 =['lichens'];
+describe('observe array false', () => {
+    it("can't observe pure array", () => {
+        var arrayData1 = ['lichens'];
         var obArray1 = new Ob(arrayData1);
         expect(obArray1.isInited).toEqual(false);
     });
 });
-
-

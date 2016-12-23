@@ -40,7 +40,7 @@ function proxy(vm, key) {
     }
 }
 
-class Ob{
+export class Ob{
 
     constructor(obj){
         this._watchers = [];
@@ -53,6 +53,8 @@ class Ob{
         return wat.teardown.bind(wat);
     }
 
-}
+};
 
-window.Ob = Ob;
+// window.Ob = Ob;
+
+// export Ob;
