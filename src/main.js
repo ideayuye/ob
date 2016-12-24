@@ -1,7 +1,7 @@
 
-import {observe,Observer} from './observe.js'
+import {observe,Observer,set,del} from './observe.js'
 import Watcher from './watcher.js'
-import {isReserved,isPlainObject,warn} from './util.js'
+import {isReserved,isPlainObject,warn,hasOwn} from './util.js'
 
 function initData(vm, data) {
     if (!isPlainObject(data)) {
@@ -40,7 +40,7 @@ function proxy(vm, key) {
     }
 }
 
-export class Ob{
+class Ob{
 
     constructor(obj){
         this._watchers = [];
@@ -48,13 +48,25 @@ export class Ob{
         this.isInited = !(!this._data || this._data !== obj);
     }
 
-    watch(getter,cb){
-        var wat = new Watcher(this,getter,cb);
+    watch(getter,cb,options){
+        var wat = new Watcher(this,getter,cb,options);
         return wat.teardown.bind(wat);
+    }
+
+    $set(key,val){
+        proxy(this,key);
+        set(this._data,key,val);
+    }
+
+    $del(key){
+        if (hasOwn(this, key)) {
+            delete this[key];
+        }
+        del(this._data,key);
     }
 
 };
 
-// window.Ob = Ob;
+window.Ob = Ob;
 
-// export Ob;
+
