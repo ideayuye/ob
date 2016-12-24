@@ -5,8 +5,8 @@ var process = {
     }
 }
 
-
 import * as h from '../src/main.js';
+
 
 var data = {
     t: 'bilaaa',
@@ -129,6 +129,17 @@ describe('set attribute', () => {
         obArray.$del('car');
         expect(obArray.car).toEqual(undefined);
     });
+
+    it('set array',()=>{
+        var setData = {
+            animal:['human']
+        }
+        var obSet = new Ob(setData);
+        obSet.watch('animal',()=>{
+            expect(setData.animal[0]).toEqual('lion');
+        });
+        obSet.$set(0,'lion')
+    })
 });
 
 describe('watch deep',()=>{
@@ -178,6 +189,8 @@ describe('watch deep',()=>{
     });
 
 });
+
+
 
 describe('observe array false', () => {
     it("can't observe pure array", () => {

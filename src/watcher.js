@@ -29,7 +29,7 @@ export default class Watcher {
     // options
     this.deep = !!options.deep
     this.user = !!options.user
-    this.lazy = !!options.lazy
+    this.lazy = false//备用
     this.sync = true //备用
     this.expression = expOrFn.toString()
     this.cb = cb
@@ -142,18 +142,7 @@ export default class Watcher {
         // set new value
         const oldValue = this.value
         this.value = value
-        if (this.user) {
-          try {
-            this.cb.call(this.vm, value, oldValue)
-          } catch (e) {
-            process.env.NODE_ENV !== 'production' && warn(
-              `Error in watcher "${this.expression}"`,
-              this.vm
-            )
-          }
-        } else {
-          this.cb.call(this.vm, value, oldValue)
-        }
+        this.cb.call(this.vm, value, oldValue)
       }
     }
   }
