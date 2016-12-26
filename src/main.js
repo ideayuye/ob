@@ -40,7 +40,7 @@ function proxy(vm, key) {
     }
 }
 
-export class Ob{
+ class Ob{
     constructor(obj){
         this._watchers = [];
         initData(this,obj);

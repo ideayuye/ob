@@ -5,17 +5,18 @@ var process = {
     }
 }
 
-import {Ob} from '../src/main.js';
+// import * as h from '../src/main.js';
 
-var data = {
-    t: 'bilaaa',
-    ruby: {
-        type: 'dinamic'
-    }
-};
-var ob = new Ob(data);
+
 
 describe('watch object', () => {
+    var data = {
+        t: 'bilaaa',
+        ruby: {
+            type: 'dinamic'
+        }
+    };
+    var ob = new Ob(data);
     it('data', (done) => {
         var count = 0;
         var t = data.t;
@@ -39,12 +40,27 @@ describe('watch object', () => {
     });
 
     it('watch attribute', (done) => {
-        ob.watch('ruby.type', () => {
+        var teardown = ob.watch('ruby.type', () => {
             expect(data.ruby.type).toEqual('static');
+            teardown();
             done();
         });
         ob.ruby.type = 'static';
     })
+
+    it('watch not defined attr',(done)=>{
+        var count =0;
+        var teardown = ob.watch('ladon',()=>{
+            count ++;
+        })
+        data.ladon = 'die';
+        setTimeout(()=>{
+            expect(count).toEqual(0);
+            teardown();
+            done();
+        },100);
+    })
+
 });
 
 
