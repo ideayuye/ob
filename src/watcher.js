@@ -150,21 +150,23 @@ export default class Watcher {
   /**
    * Evaluate the value of the watcher.
    * This only gets called for lazy watchers.
+   * back
    */
-  evaluate () {
+  /*evaluate () {
     this.value = this.get()
     this.dirty = false
-  }
+  }*/
 
   /**
    * Depend on all deps collected by this watcher.
+   * back
    */
-  depend () {
+  /*depend () {
     let i = this.deps.length
     while (i--) {
       this.deps[i].depend()
     }
-  }
+  }*/
 
   /**
    * Remove self from all dependencies' subscriber list.

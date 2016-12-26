@@ -40,29 +40,18 @@ function proxy(vm, key) {
     }
 }
 
-class Ob{
-
+export class Ob{
     constructor(obj){
         this._watchers = [];
         initData(this,obj);
-        this.isInited = !(!this._data || this._data !== obj);
+        this._isInited = !!this._data;
+        this.$set = set;
+        this.$del = del;
     }
 
     watch(getter,cb,options){
         var wat = new Watcher(this,getter,cb,options);
         return wat.teardown.bind(wat);
-    }
-
-    $set(key,val){
-        proxy(this,key);
-        set(this._data,key,val);
-    }
-
-    $del(key){
-        if (hasOwn(this, key)) {
-            delete this[key];
-        }
-        del(this._data,key);
     }
 
 };

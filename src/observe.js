@@ -192,13 +192,13 @@ export function set (obj, key, val) {
     return
   }
   const ob = obj.__ob__
-  /*if (obj._isVue || (ob && ob.vmCount)) {
+  if (obj._isVue || (ob && ob.vmCount)) {
     process.env.NODE_ENV !== 'production' && warn(
       'Avoid adding reactive properties to a Vue instance or its root $data ' +
       'at runtime - declare it upfront in the data option.'
     )
     return
-  }*/
+  }
   if (!ob) {
     obj[key] = val
     return
@@ -213,13 +213,13 @@ export function set (obj, key, val) {
  */
 export function del (obj, key) {
   const ob = obj.__ob__
-  /*if (obj._isVue || (ob && ob.vmCount)) {
+  if (obj._isVue || (ob && ob.vmCount)) {
     process.env.NODE_ENV !== 'production' && warn(
       'Avoid deleting properties on a Vue instance or its root $data ' +
       '- just set it to null.'
     )
     return
-  }*/
+  }
   if (!hasOwn(obj, key)) {
     return
   }

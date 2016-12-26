@@ -5,8 +5,7 @@ var process = {
     }
 }
 
-import * as h from '../src/main.js';
-
+import {Ob} from '../src/main.js';
 
 var data = {
     t: 'bilaaa',
@@ -29,7 +28,7 @@ describe('watch object', () => {
             }
         });
 
-        data.t = "xfa";
+        ob.t = "xfa";
     });
 
     it('teardown watcher', () => {
@@ -49,13 +48,12 @@ describe('watch object', () => {
 });
 
 
-var arrayData = {
-    grass: [],
-    vegetable: []
-};
-var obArray = new Ob(arrayData);
-
 describe('watch array in object', () => {
+    var arrayData = {
+        grass: [],
+        vegetable: []
+    };
+    var obArray = new Ob(arrayData);
     it('watch array getter', (done) => {
         var count = 0;
         obArray.watch(() => {
@@ -114,32 +112,49 @@ describe('watch array in object', () => {
 });
 
 describe('set attribute', () => {
-    it('set ', (done) => {
-        obArray.$set('car', 'bmw');
-        var teardown = obArray.watch('car', () => {
-            expect(obArray.car).toEqual('benze');
+    var setData = {
+         animal:['human'],
+         car:'bmw',
+         jobs:{}
+    }
+    var obSet = new Ob(setData);
+    it('set root attr failure', () => {
+        obSet.$set(setData,'address','beiqijia');
+        expect(obSet.address).toEqual(undefined);
+    });
+
+    it('del root attr failure',()=>{
+        expect(setData.car).toEqual('bmw');
+        obSet.$del(setData,'car');
+        expect(setData.car).toEqual('bmw');
+    });
+
+    it('set attr',(done)=>{
+        var teardown = obSet.watch('jobs',()=>{
+            expect(setData.jobs.compony).toEqual('tyb');
             teardown();
             done();
         });
-        obArray.car = 'benze';
+        obSet.$set(setData.jobs,'compony','tyb');
     });
 
-    it('del',()=>{
-        expect(obArray.car).toEqual('benze');
-        obArray.$del('car');
-        expect(obArray.car).toEqual(undefined);
+    it('del attr',(done)=>{
+        var teardown = obSet.watch('jobs',()=>{
+            expect(setData.jobs.compony).toEqual(undefined);
+            teardown();
+            done();
+        });
+        obSet.$del(setData.jobs,'compony');
     });
 
-    it('set array',()=>{
-        var setData = {
-            animal:['human']
-        }
-        var obSet = new Ob(setData);
+    it('set array attr',(done)=>{
         obSet.watch('animal',()=>{
             expect(setData.animal[0]).toEqual('lion');
+            done();
         });
-        obSet.$set(0,'lion')
-    })
+        obSet.$set(setData.animal, 0,'lion');
+    });
+
 });
 
 describe('watch deep',()=>{
@@ -177,7 +192,7 @@ describe('watch deep',()=>{
                 done();
             }
         });
-        deepData.film = [{name:'1980年带爱情',star:'9.8'}];
+        deepData.film = [{name:'1980年代爱情',star:'9.8'}];
         deepData.film[0].star = '9.9';
     });
 
@@ -190,12 +205,12 @@ describe('watch deep',()=>{
 
 });
 
+describe('observe pure array failure ', () => {
+    var pureArray = ['lichens'];
+    var obPureArray = new Ob(pureArray);
 
-
-describe('observe array false', () => {
-    it("can't observe pure array", () => {
-        var arrayData1 = ['lichens'];
-        var obArray1 = new Ob(arrayData1);
-        expect(obArray1.isInited).toEqual(false);
+    it("init observe pure array failure", () => {
+        expect(obPureArray._isInited).toEqual(false);
     });
 });
+
