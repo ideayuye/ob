@@ -40,6 +40,9 @@ function proxy(vm, key) {
     }
 }
 
+/**
+ * 数据监听类
+ */
 function Ob(obj) {
     this._watchers = [];
     initData(this, obj);
@@ -47,6 +50,14 @@ function Ob(obj) {
     this.$set = set;
     this.$del = del;
 
+    /**
+     * 添加监听函数
+     * @param {string|function} getter - 要监听的属性 可以通过函数获取
+     * @param {function} cb - 当数据变更 执行的回调函数
+     * @param {object} options - 配置项 deep-深度监听
+     * 
+     * @returns {function} - 解绑监听事件函数
+     */
     this.watch = function (getter, cb, options) {
         var wat = new Watcher(this, getter, cb, options);
         return wat.teardown.bind(wat);
