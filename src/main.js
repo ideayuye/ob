@@ -40,22 +40,21 @@ function proxy(vm, key) {
     }
 }
 
- class Ob{
-    constructor(obj){
-        this._watchers = [];
-        initData(this,obj);
-        this._isInited = !!this._data;
-        this.$set = set;
-        this.$del = del;
-    }
+function Ob(obj) {
+    this._watchers = [];
+    initData(this, obj);
+    this._isInited = !!this._data;
+    this.$set = set;
+    this.$del = del;
 
-    watch(getter,cb,options){
-        var wat = new Watcher(this,getter,cb,options);
+    this.watch = function (getter, cb, options) {
+        var wat = new Watcher(this, getter, cb, options);
         return wat.teardown.bind(wat);
     }
-
 };
 
-window.Ob = Ob;
+Ob.version = '1.0.0';
+
+export default Ob;
 
 

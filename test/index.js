@@ -6,6 +6,8 @@ var process = {
 }
 window.Set = undefined;
 
-import * as h from '../src/main.js';
+import Ob from '../src/main.js';
+
+window.Ob = Ob;
 
 
