@@ -1,13 +1,4 @@
 
-var process = {
-    env: {
-        NODE_ENV: 'dev'
-    }
-}
-
-// import * as h from '../src/main.js';
-
-
 
 describe('watch object', () => {
     var data = {
@@ -16,8 +7,18 @@ describe('watch object', () => {
             type: 'dinamic'
         }
     };
+    Object.defineProperty(data,'formatTime',{
+        enumerable:true,
+        configurable:true,
+        get:function(){
+            return this.formatTimeValue;
+        },
+        set:function(val){
+            this.formatTimeValue = val + 'set';
+        }
+    });
     var ob = new Ob(data);
-    it('data', (done) => {
+    it('common data', (done) => {
         var count = 0;
         var t = data.t;
         ob.watch(() => {
@@ -48,6 +49,15 @@ describe('watch object', () => {
         ob.ruby.type = 'static';
     })
 
+    it('watch custom setter attr',(done)=>{
+        var teardown = ob.watch('formatTime', () => {
+            expect(data.formatTime).toEqual('timeset');
+            teardown();
+            done();
+        });
+        data.formatTime = 'time'
+    })
+
     it('watch not defined attr',(done)=>{
         var count =0;
         var teardown = ob.watch('ladon',()=>{
@@ -57,6 +67,20 @@ describe('watch object', () => {
         setTimeout(()=>{
             expect(count).toEqual(0);
             teardown();
+            done();
+        },100);
+    })
+
+    it('wtach wrong attr',(done)=>{
+        var count =0;
+        var teardown = ob.watch('*fnifa',()=>{
+            count++;
+        })
+        data['*fnifa'] = 'die';
+        setTimeout(()=>{
+            expect(count).toEqual(0);
+            teardown();
+            delete data['*fnifa'];
             done();
         },100);
     })
@@ -145,6 +169,14 @@ describe('set attribute', () => {
         expect(setData.car).toEqual('bmw');
     });
 
+    it('set exist attr',(done)=>{
+        var teardown = obSet.watch('car',()=>{
+            expect(setData.car).toEqual('bz');
+            done();
+        });
+        obSet.$set(setData,'car','bz');
+    });
+
     it('set attr',(done)=>{
         var teardown = obSet.watch('jobs',()=>{
             expect(setData.jobs.compony).toEqual('tyb');
@@ -161,6 +193,7 @@ describe('set attribute', () => {
             done();
         });
         obSet.$del(setData.jobs,'compony');
+        obSet.$del(setData.jobs,'none');
     });
 
     it('set array attr',(done)=>{
@@ -229,4 +262,5 @@ describe('observe pure array failure ', () => {
         expect(obPureArray._isInited).toEqual(false);
     });
 });
+
 
