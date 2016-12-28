@@ -2,7 +2,7 @@
 # Summary
 object observe split from vue
 
-
+[![Build Status](https://travis-ci.org/ideayuye/ob.svg?branch=master)](https://travis-ci.org/ideayuye/ob)
 # Usage
 监听对象：
 
@@ -45,6 +45,7 @@ object observe split from vue
 # API
 
 - watch  添加监听函数
+
     para:
      {string|function} getter - 要监听的属性 可以通过函数获取
      {function} cb - 当数据变更 执行的回调函数
@@ -54,6 +55,7 @@ object observe split from vue
         解绑监听事件函数
 
 - $set 设置某个属性并促发更新事件,为弥补array[1]='xx'不触发更新事件而设计
+
     para:
      {object} obj - 要设置属性的对象
      {string} key - 属性名称
@@ -75,6 +77,7 @@ object observe split from vue
         obSet.$set(setData.animal, 0,'lion');
 
 - $del 删除某个属性并促发更新事件
+
     para:
      {object} obj - 要删除属性的对象
      {string} key - 属性名称
@@ -83,4 +86,5 @@ object observe split from vue
         undefined
     
     example:
+
          obSet.$del(setData.jobs,'compony');
