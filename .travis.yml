@@ -6,3 +6,5 @@ node_js:
 script:
   - karma start
 
+after_success:
+  npm run coverage && nyc report --reporter=text-lcov | coveralls

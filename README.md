@@ -3,6 +3,8 @@
 object observe split from vue
 
 [![Build Status](https://travis-ci.org/ideayuye/ob.svg?branch=master)](https://travis-ci.org/ideayuye/ob)
+[![Coverage Status](https://coveralls.io/repos/github/ideayuye/ob/badge.svg?branch=master)](https://coveralls.io/github/ideayuye/ob?branch=master)
+
 # Usage
 监听对象：
 
