@@ -2,6 +2,7 @@
 # Summary
 object observe split from vue
 
+
 # Usage
 监听对象：
 
