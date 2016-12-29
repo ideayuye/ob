@@ -41,8 +41,10 @@ describe('watch object', () => {
     });
 
     it('watch attribute', (done) => {
-        var teardown = ob.watch('ruby.type', () => {
+        var teardown = ob.watch('ruby.type', (value,oldvalue) => {
             expect(data.ruby.type).toEqual('static');
+            expect(value).toEqual('static');
+            expect(oldvalue).toEqual('dinamic');
             teardown();
             done();
         });
@@ -50,8 +52,9 @@ describe('watch object', () => {
     })
 
     it('watch custom setter attr',(done)=>{
-        var teardown = ob.watch('formatTime', () => {
+        var teardown = ob.watch('formatTime', function() {
             expect(data.formatTime).toEqual('timeset');
+            expect(this.formatTime).toEqual('timeset');
             teardown();
             done();
         });

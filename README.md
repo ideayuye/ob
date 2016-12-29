@@ -17,19 +17,31 @@ object observe split from vue
 
     var ob = new Ob(data);
 
-    ob.watch('ruby.type', () => {
+    ob.watch('ruby.type', function(value,oldvalue){
         console.log(data.ruby.type);
+        console.log(this.ruby.type);
+        console.log(value,oldvalue);
     });
     ob.ruby.type = 'static';
 
 
-    //通过getter监听 watch的时候就执行getter函数
-    ob.watch(() => {
+    //通过getter监听 watch的时候就执行getter函数 
+    ob.watch(function(){
         var t = data.t;
     });
     ob.t = "xfa";
 
-监听数组：
+    //深度监听
+    ob.watch('ruby.type', function(value,oldvalue){
+        console.log(this.ruby.type);
+    },{deep:true});
+    data.ruby.type = {
+        name:'binaf'
+    };
+    data.ruby.type.name = "cafx";    
+
+
+监听数组(不能直接监听数组，必须把数组包装在对象的一个属性上)：
 
     var arrayData = {
         grass: [],
@@ -38,11 +50,13 @@ object observe split from vue
 
     var obArray = new Ob(arrayData);
 
-    obArray.watch('vegetable', () => {
+    obArray.watch('vegetable', function(){
         console.log(obArray.vegetable);
     });
     arrayData.vegetable.push('radish');
+    obArray.$set(arrayData.vegetable,0,'pumpkin');//arrayData.vegetable[0]='xaa';不触发更新事件
     arrayData.vegetable.pop();
+
 
 # API
 
@@ -59,9 +73,10 @@ object observe split from vue
 - $set 设置某个属性并促发更新事件,为弥补array[1]='xx'不触发更新事件而设计
 
     para:
-     {object} obj - 要设置属性的对象
-     {string} key - 属性名称
-     {object} val - 属性值
+
+     {object} obj - 要设置属性的对象 
+     {string} key - 属性名称 
+     {object} val - 属性值 
     
     return:
         属性值
@@ -81,8 +96,9 @@ object observe split from vue
 - $del 删除某个属性并促发更新事件
 
     para:
-     {object} obj - 要删除属性的对象
-     {string} key - 属性名称
+
+     {object} obj - 要删除属性的对象 
+     {string} key - 属性名称 
 
     return:
         undefined
