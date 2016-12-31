@@ -1,6 +1,6 @@
 {
   "name": "ob",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "object observe",
   "main": "dist/ob.min.js",
   "scripts": {

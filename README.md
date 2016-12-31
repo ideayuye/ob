@@ -1,6 +1,6 @@
 
 # Summary
-object observe split from vue
+ob是一个用于对象监听的轻量库。是从vue里面拆分出来的。由于感受到vue对对象监听的便利。想到对象监听，或许不止可以用来dom更新。还可以用于其它需要监控的场景。所以就尝试拆分出一个轻量的对象监听库。大小只有5.5k，gzip后3k。
 
 [![Build Status](https://travis-ci.org/ideayuye/ob.svg?branch=master)](https://travis-ci.org/ideayuye/ob)
 [![Coverage Status](https://coveralls.io/repos/github/ideayuye/ob/badge.svg?branch=master)](https://coveralls.io/github/ideayuye/ob?branch=master)
