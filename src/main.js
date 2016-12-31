@@ -64,7 +64,7 @@ function Ob(obj) {
     }
 };
 
-Ob.version = '1.0.0';
+Ob.version = '1.0.1';
 
 export default Ob;
 

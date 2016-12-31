@@ -2,12 +2,14 @@
   "name": "ob",
   "version": "1.0.0",
   "description": "object observe",
-  "main": "index.js",
+  "main": "dist/ob.min.js",
   "scripts": {
     "rollup": "rollup -c config.js -m inline",
     "dev": "rollup -c config.js -w -m inline ",
     "build": "set NODE_ENV=prd&&rollup -c config.js",
-    "build.dev": "set NODE_ENV=dev&&rollup -c config.js",
+    "build-dev": "set NODE_ENV=dev&&rollup -c config.js",
+    "mac-build": "export NODE_ENV=prd&&rollup -c config.js",
+    "mac-build-dev": "set NODE_ENV=dev&&rollup -c config.js",
     "coverage": "nyc karma start"
   },
   "keywords": [
