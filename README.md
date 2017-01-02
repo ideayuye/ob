@@ -17,13 +17,14 @@ ob是一个用于对象监听的轻量库。是从vue里面拆分出来的。由
 
     var ob = new Ob(data);
 
-    ob.watch('ruby.type', function(value,oldvalue){
+    var teardown = ob.watch('ruby.type', function(value,oldvalue){
         console.log(data.ruby.type);
         console.log(this.ruby.type);
         console.log(value,oldvalue);
     });
     ob.ruby.type = 'static';
 
+    teardown();//解除watch
 
     //通过getter监听 watch的时候就执行getter函数 
     ob.watch(function(){
