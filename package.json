@@ -18,6 +18,11 @@
     "watch",
     "watcher"
   ],
+  "homepage": "https://github.com/ideayuye/obj-ob",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ideayuye/obj-ob.git"
+  },
   "author": "tb",
   "license": "ISC",
   "dependencies": {},

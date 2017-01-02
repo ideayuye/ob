@@ -5,6 +5,10 @@ ob是一个用于对象监听的轻量库。是从vue里面拆分出来的。由
 [![Build Status](https://travis-ci.org/ideayuye/ob.svg?branch=master)](https://travis-ci.org/ideayuye/ob)
 [![Coverage Status](https://coveralls.io/repos/github/ideayuye/ob/badge.svg?branch=master)](https://coveralls.io/github/ideayuye/ob?branch=master)
 
+#Install
+
+    npm install obj-ob
+
 # Usage
 监听对象：
 
